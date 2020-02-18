@@ -5,18 +5,9 @@ import initExpressServer from './cluster-node-sever/setup-express'
 
 /**
  * Function create server for start the server
- * with clustering or net for test
+ * with clustering or not for test
  *
- * @param {string} activatedCluster True or falsy for using cluster
- * @constructor
  */
-
-const initServer = activatedCluster => {
-	if (activatedCluster && cluster.isMaster) {
-		initWorker()
-	} else {
-		initExpressServer()
-	}
-}
-
-initServer(configs.CLUSTER)
+;(() => {
+	return configs.CLUSTER && cluster.isMaster ? initWorker() : initExpressServer()
+})()
